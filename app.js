@@ -2,16 +2,70 @@ const express = require("express");
 const bodyparser = require("body-parser");
 const connection = require("./connection");
 const { Request } = require("tedious");
-
+var employees = [
+    { Name: 'Dhruvi', Salary: 100000, Room: '999', Telnum: '911', Picture: 'dhruvi.jpg', Keywords: 'Dhruviis verysmart' },
+    { Name: 'SaiTheja', Salary: 99999, Room: '420', Telnum: '000', Picture: 'saitheja.jpg', Keywords: 'SaiThejais evensmarter' },
+    { Name: 'Dave', Salary: 1, Room: '525', Telnum: '-0', Picture: '', Keywords: 'Doesn’tseem too nice' }
+];
 var app = express();
 app.use(bodyparser.json());
 
+// Default Route
 app.get('/', (req, res) => {
     res.send('Hello World!!!');
 });
 
+// Test Route
 app.get('/test', (req, res) => {
-    res.send('Hello from App Engine!');
+    res.send(`Hello from App Engine! ${++count}`);
+});
+
+// Search By Name
+app.get('/searchByName', (req, res) => {
+    var name = req.query.name;
+    var employee = employees.find(_ => _.Name === name);
+    res.send(employee);
+});
+
+// Search By Salary
+app.get('/searchBySalary', (req, res) => {
+    var salary = req.query.salary ? Number(req.query.salary) : 0;
+    var filteredEmployees = employees.filter(_ => _.Salary < salary);
+    res.send(filteredEmployees);
+});
+
+// Update Picture.
+app.post('/updatePicture', (req, res) => {
+    var name = req.body.name;
+    var picture = req.body.picture;
+    var employee = employees.find(_ => _.Name === name);
+    employee.Picture = picture;
+    res.send(employee);
+});
+
+// Remove Employee
+app.get('/removeEmployee', (req, res) => {
+    var name = req.query.name;
+    employees = employees.filter(_ => _.Name !== name);
+    res.send(employees);
+});
+
+// Update Keyword
+app.post('/updateKeyWord', (req, res) => {
+    var name = req.body.name;
+    var keyWord = req.body.keyWord;
+    var employee = employees.find(_ => _.Name !== name);
+    employee.KeyWord = keyWord;
+    res.send(employee);
+});
+
+// Update Salary
+app.post('/updateSalary', (req, res) => {
+    var name = req.body.name;
+    var salary = req.body.salary;
+    var employee = employees.find(_ => _.Name !== name);
+    employee.Salary = salary;
+    res.send(employee);
 });
 
 app.post('/searchnamekey', (req, res) => {
