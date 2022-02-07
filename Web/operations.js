@@ -1,4 +1,4 @@
-let baseAddress = 'http://127.0.0.1:3000/';
+let baseAddress = 'https://adb1.azurewebsites.net/';
 let blobBaseAddress = 'https://adbassignment.blob.core.windows.net/adbimages/';
 
 // Search by Name
