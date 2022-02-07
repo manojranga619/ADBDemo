@@ -1,15 +1,18 @@
 const express = require("express");
+const cors = require('cors');
 const bodyparser = require("body-parser");
 const connection = require("./connection");
 const { Request } = require("tedious");
 var employees = [
-    { Name: 'Dhruvi', Salary: 100000, Room: '999', Telnum: '911', Picture: 'dhruvi.jpg', Keywords: 'Dhruviis verysmart' },
-    { Name: 'SaiTheja', Salary: 99999, Room: '420', Telnum: '000', Picture: 'saitheja.jpg', Keywords: 'SaiThejais evensmarter' },
+    { Name: 'Dhruvi', Salary: 100000, Room: '999', Telnum: '911', Picture: 'dhruvi.jpeg', Keywords: 'Dhruviis verysmart' },
+    { Name: 'SaiTheja', Salary: 99999, Room: '420', Telnum: '000', Picture: 'saitheja.jpeg', Keywords: 'SaiThejais evensmarter' },
     { Name: 'Dave', Salary: 1, Room: '525', Telnum: '-0', Picture: '', Keywords: 'Doesn’tseem too nice' }
 ];
 var app = express();
 app.use(bodyparser.json());
-
+app.use(cors({
+    origin: '*'
+}));
 // Default Route
 app.get('/', (req, res) => {
     res.send('Hello World!!!');
@@ -54,38 +57,34 @@ app.get('/removeEmployee', (req, res) => {
 app.post('/updateKeyWord', (req, res) => {
     var name = req.body.name;
     var keyWord = req.body.keyWord;
-    var employee = employees.find(_ => _.Name !== name);
-    employee.KeyWord = keyWord;
-    res.send(employee);
+    if (name && keyWord && employees.some(_ => _.Name === name)) {
+        employees.forEach(_ => {
+            if (_.Name === name) {
+                _.KeyWord = keyWord;
+            }
+        });
+        res.send(employees); 
+    }
+    else {
+        res.send("Invalid keyword or name or employee doesn't exist.")
+    }
 });
 
 // Update Salary
 app.post('/updateSalary', (req, res) => {
     var name = req.body.name;
     var salary = req.body.salary;
-    var employee = employees.find(_ => _.Name !== name);
-    employee.Salary = salary;
-    res.send(employee);
-});
-
-app.post('/searchnamekey', (req, res) => {
-    var name = req.body.Name;
-    var value = req.body.Value;
-    var sql = `SELECT TOP 20 Name FROM [details] d where ${name} = '${value}'`;
-    // Read all rows from table
-    const request = new Request(sql,
-        (err, rowCount) => {
-        if (err) {
-            console.error(err.message);
-        } else {
-            console.log(`${rowCount} row(s) returned`);
+    if (salary && name && employees.some(_ => _.Name === name)) {
+        employees.forEach(_ => {
+            if (_.Name === name) {
+                _.Salary = salary;
             }
-        }
-    );
-    request.on("row", columns => {
-        res.send(columns);
-    });
-   connection.execSql(request);
+        });
+        res.send(employees);    
+    }
+    else {
+        res.send("Invalid salary or name or employee doesn't exist.")
+    }
 });
 
 const PORT = process.env.PORT || 3000;

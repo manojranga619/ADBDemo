@@ -1,0 +1,49 @@
+<html>
+<head>
+    <script type="text/javascript" src="operations.js"></script>
+</head>
+<body>
+    <div style="display: flex;">
+        <div>
+            <h3>Manoj Ranga</h3>
+            <h3>ID: 1001877617</h3>
+        </div>
+        <div>
+            <input type="file" value="Upload" />
+            <button onclick="">Upload</button>
+        </div>
+    </div>
+
+    <div>
+        <div>
+            <div>Search By Name:</div>
+            Name: <input type="text" id="name" /> <button onclick="searchByName()">Search</button>
+        </div>
+        <div>
+            <div>Search By Salary:</div>
+            Salary(less than):<input type="text" id="salary" /> <button onclick="searchBySalary()">Search</button>
+        </div>
+        <div>
+            <div>Update Picture:</div>
+            Name: <input type="text" /> <input type="file" value="Update Picture" /> <button onclick="updatePicture()">Remove</button>
+        </div>
+        <div>
+            <div>Remove Employee:</div>
+            Name: <input type="text" id="employeeToRemove" /> <button onclick="removeEmployee()">Remove</button>
+        </div>
+        <div>
+            <div>Update Salary:</div>
+            Name: <input type="text" id="employeeToUpdateSalary" /> Salary: <input type="text" id="updatedSalary" /> <button onclick="UpdateSalary()">Update Salary</button>
+        </div>
+        <div>
+            <div>Update Keyword:</div>
+            Name: <input type="text" id="employeeToUpdateKeyword" /> Keyword: <input type="text" id="updatedKeyword" /> <button onclick="UpdateKeyword()">Update Keyword</button>
+        </div>
+    </div>
+
+    <div id="searchContent">
+
+    </div>
+</body>
+
+</html>
