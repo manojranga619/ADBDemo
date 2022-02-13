@@ -1,4 +1,4 @@
-let baseAddress = 'https://adb1.azurewebsites.net/';
+let baseAddress = 'https://localhost:3000/'; // 'https://adb1.azurewebsites.net/';
 let blobBaseAddress = 'https://adbassignment.blob.core.windows.net/adbimages/';
 
 // Search by Name
@@ -47,6 +47,14 @@ function searchBySalary() {
             .catch((error) => {
                 console.error('Error:', error);
             });
+    }
+}
+
+function updatePicture() {
+    let employeeToChange = document.getElementById("updatePicture");
+    let latestPicture = document.getElementById("upPicture");
+    if (employeeToChange && latestPicture) {
+
     }
 }
 

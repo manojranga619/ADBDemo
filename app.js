@@ -90,7 +90,7 @@ app.post('/updateSalary', (req, res) => {
 app.post('/searchnamekeydb', (req, res) => {
     var name = req.body.Name;
     var value = req.body.Value;
-    var sql = `SELECT TOP 20 Name FROM [details] d where ${name} = '${value}'`;
+    var sql = `SELECT TOP 20 * FROM [details]`;
     // Read all rows from table
     const request = new Request(sql,
         (err, rowCount) => {
@@ -101,13 +101,28 @@ app.post('/searchnamekeydb', (req, res) => {
             }
         }
     );
+    const rows = [];
     request.on("row", columns => {
-        res.send(columns);
+        let row = {};
+        columns.forEach((column) => {
+            row[column.metadata.colName] = column.value;
+        });
+        rows.push(row);
+    });
+
+    request.on('done', (rowCount) => {
+        console.log('Done is called!');
+        res.send(rows);
+      });
+    
+    request.on('doneInProc', (rowCount, more) => {
+        console.log(rowCount + ' rows returned');
+        res.send(rows);
     });
    connection.execSql(request);
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT =3000;
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
 });
