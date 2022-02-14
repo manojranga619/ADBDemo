@@ -57,6 +57,7 @@ app.get('/removeEmployee', (req, res) => {
 app.post('/updateKeyWord', (req, res) => {
     var name = req.body.name;
     var keyWord = req.body.keyWord;
+    var name = req.body.name;
     if (name && keyWord && employees.some(_ => _.Name === name)) {
         employees.forEach(_ => {
             if (_.Name === name) {
@@ -72,7 +73,6 @@ app.post('/updateKeyWord', (req, res) => {
 
 // Update Salary
 app.post('/updateSalary', (req, res) => {
-    var name = req.body.name;
     var salary = req.body.salary;
     if (salary && name && employees.some(_ => _.Name === name)) {
         employees.forEach(_ => {
@@ -122,7 +122,7 @@ app.post('/updateSalary', (req, res) => {
 //    connection.execSql(request);
 // });
 
-const PORT =3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
 });
